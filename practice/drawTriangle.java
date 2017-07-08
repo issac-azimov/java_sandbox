@@ -3,7 +3,7 @@ public class drawTriangle {
 
 	public static void draw(String starter) {
 		String pstart = "*";
-		for (int i = 1; i < 6; i ++) {
+		for (int i = 0; i < 6; i ++) {
 			System.out.print(pstart + "\n");
 			pstart = pstart + starter;
 		}
