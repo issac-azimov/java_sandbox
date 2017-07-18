@@ -30,35 +30,42 @@ public class Planet {
 	}
 
 	public double calcNetForceExertedByX(Planet[] pArray) {
+		double xNetForce = 0;
 		//F*dx/r
 		for (int i = 0; i < pArray.length; i++) {
 			if (!this.equals(pArray[i])) {
-				double dx = Math.sqrt((this.xxPos - pArray[i].xxPos)*(this.xxPos - pArray[i].xxPos));
-				return (this.calcForceExertedBy(pArray[i])*dx)/(this.calcDistance(pArray[i]));	
-			}
+				double dx =  this.xxPos - pArray[i].xxPos;
+				xNetForce += (this.calcForceExertedBy(pArray[i])*dx)/(this.calcDistance(pArray[i]));	
+			} 
 		}
-		return 0;
+		return xNetForce;
 	}
 
 	public double calcNetForceExertedByY(Planet[] pArray) {
+		double yNetForce = 0;
 		for (int i = 0; i < pArray.length; i++) {
 			if (!this.equals(pArray[i])) {
-				double dy = Math.sqrt((this.yyPos - pArray[i].yyPos)*(this.yyPos - pArray[i].yyPos));
-				return (this.calcForceExertedBy(pArray[i])*dy)/(this.calcDistance(pArray[i]));
-			}
-
+				double dy = this.yyPos - pArray[i].yyPos;
+				yNetForce += (this.calcForceExertedBy(pArray[i])*dy)/(this.calcDistance(pArray[i]));
+			} 
 		}
-		return 0;
+		return yNetForce;
 	}
 
 	public void update(double dt, double fX, double fY) {
 		//aX = fX/m aY = FY/m
+		
 		double aX = fX/this.mass;
 		double aY = fY/this.mass;
-		this.xxVel = xxVel + dt*aX;
-		this.yyVel = yyVel + dt*aY;
-		this.xxPos = xxPos + dt*this.xxVel;
-		this.yyPos = yyPos + dt*this.yyVel;
+		this.xxVel = this.xxVel + dt*aX;
+		this.yyVel = this.yyVel + dt*aY;
+		this.xxPos = this.xxPos + dt*this.xxVel;
+		this.yyPos = this.yyPos + dt*this.yyVel;
+		
 
+	}
+
+	public void draw() {
+		StdDraw.picture(this.xxPos, this.yyPos, "./images/" + this.imgFileName);
 	}
 }

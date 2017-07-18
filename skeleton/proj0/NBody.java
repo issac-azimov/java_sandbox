@@ -21,7 +21,7 @@ public class NBody {
 			double yyPos = file.readDouble();
 			// System.out.println(yyPos);
 			double xxVel = file.readDouble();
-			// System.out.println(xxVel);
+			// System.out.println(xxVearl);
 			double yyVel = file.readDouble();
 			// System.out.println(yyVel);			
 			double mass = file.readDouble();
@@ -34,6 +34,43 @@ public class NBody {
 	}
 
 	public static void main(String[] args) {
+		double T = Double.parseDouble(args[0]);
+		double dt = Double.parseDouble(args[1]);
+		String filename = args[2];
+		Planet planetArray[] =  readPlanets(filename);
+		double radius = readRadius(filename);
+		
+		//universe
+		StdDraw.setScale(-radius, radius);
+		StdAudio.play("./audio/2001.mid");
+		
 
+		double[] xForces = new double[planetArray.length];
+		double[] yForces = new double[planetArray.length];
+		
+
+		double time = 0;
+		while (time < T) {
+			
+			StdDraw.picture(0,0,"./images/starfield.jpg");
+
+			
+			for (int i = 0; i < planetArray.length; i++) {
+				
+				xForces[i] = planetArray[i].calcNetForceExertedByX(planetArray);
+				yForces[i] = planetArray[i].calcNetForceExertedByY(planetArray);
+
+			}
+			for (int i = 0; i < planetArray.length; i++) {
+				planetArray[i].update(dt, -xForces[i], -yForces[i]);
+			}
+
+			for (Planet planet : planetArray) {
+				planet.draw();
+			}
+
+			StdDraw.show(10);
+			time = time + dt;
+		}
 	}
 }
